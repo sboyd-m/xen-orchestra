@@ -43,6 +43,7 @@ export default decorate([
       protocol: undefined,
       region: undefined,
       allowUnauthorized: undefined,
+      useVhdDirectory: undefined,
     }),
     effects: {
       linkState,
@@ -70,10 +71,11 @@ export default decorate([
             region = remote.region,
             allowUnauthorized = remote.allowUnauthorized,
           } = state
-          let { path = remote.path } = state
+          let { path = remote.path, useVhdDirectory } = state
           if (type === 's3') {
             const { parsedPath, bucket = parsedPath.split('/')[0], directory = parsedPath.split('/')[1] } = state
             path = bucket + '/' + directory
+            useVhdDirectory = true // always on for s3
           }
           return editRemote(remote, {
             name,
@@ -88,6 +90,7 @@ export default decorate([
               protocol,
               region,
               allowUnauthorized,
+              useVhdDirectory,
             }),
             options: options !== '' ? options : null,
             proxy: proxyId,
@@ -116,6 +119,7 @@ export default decorate([
             proxyId,
             type = 'nfs',
             username,
+            useVhdDirectory = false,
           } = state
 
           const urlParams = {
@@ -123,12 +127,14 @@ export default decorate([
             path,
             port,
             type,
+            useVhdDirectory,
           }
           if (type === 's3') {
             const { allowUnauthorized, bucket, directory, protocol = 'https' } = state
             urlParams.path = bucket + '/' + directory
             urlParams.allowUnauthorized = allowUnauthorized
             urlParams.protocol = protocol
+            urlParams.useVhdDirectory = true // always on for s3
           }
           username && (urlParams.username = username)
           password && (urlParams.password = password)
@@ -154,6 +160,12 @@ export default decorate([
       },
       setAllowUnauthorized(_, value) {
         this.state.allowUnauthorized = value
+      },
+      setUseVhdDirectory(_, value) {
+        this.state.useVhdDirectory = value
+      },
+      setUseMoveMerge(_, value) {
+        this.state.useMoveMerge = value
       },
     },
     computed: {
@@ -184,6 +196,7 @@ export default decorate([
       type = remote.type || 'nfs',
       username = remote.username || '',
       allowUnauthorized = remote.allowUnauthorized || false,
+      useVhdDirectory = remote.useVhdDirectory || type === 's3',
     } = state
     return (
       <div>
@@ -447,6 +460,23 @@ export default decorate([
                   placeholder='Paste secret here to change it'
                   autoComplete='off'
                   type='text'
+                />
+              </div>
+            </fieldset>
+          )}
+          {type !== 's3' && (
+            <fieldset className='form-group form-group'>
+              <div className='input-group form-group'>
+                <span className='align-middle'>
+                  {_('remoteUseVhdDirectory')}
+                  <Tooltip content={_('remoteUseVhdDirectoryTooltip')}>
+                    <Icon icon='info' size='lg' />
+                  </Tooltip>
+                </span>
+                <Toggle
+                  className='align-middle pull-right'
+                  onChange={effects.setInsecure}
+                  value={useVhdDirectory === true}
                 />
               </div>
             </fieldset>
