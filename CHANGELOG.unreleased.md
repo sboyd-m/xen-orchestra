@@ -8,7 +8,7 @@
 > Users must be able to say: “Nice enhancement, I'm eager to test it”
 
 - [Backup] Merge delta backups without copying data when using VHD directories on NFS/SMB/local remote(https://github.com/vatesfr/xen-orchestra/pull/6271))
-- Users can use vhd directory on any remote type (PR [#6273](https://github.com/vatesfr/xen-orchestra/pull/6273))
+- [Backup] Users can use VHD directory on any remote type (PR [#6273](https://github.com/vatesfr/xen-orchestra/pull/6273))
 
 ### Bug fixes
 
