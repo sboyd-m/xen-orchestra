@@ -568,7 +568,7 @@ class RemoteAdapter {
     return backups.sort(compareTimestamp)
   }
 
-  async writeVhd(path, input, { checksum = true, validator = noop } = {}) {
+  async writeVhd(path, input, { checksum = true, validator = noop, nbdClient } = {}) {
     const handler = this._handler
 
     if (this.#useVhdDirectory()) {
@@ -580,6 +580,7 @@ class RemoteAdapter {
           await input.task
           return validator.apply(this, arguments)
         },
+        nbdClient,
       })
       await VhdAbstract.createAlias(handler, path, dataPath)
     } else {
