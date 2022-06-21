@@ -94,11 +94,6 @@ module.exports = limitConcurrency(2)(async function merge(
         currentBlock: 0,
         mergedDataSize: 0,
       }
-
-      // finds first allocated block for the 2 following loops
-      while (mergeState.currentBlock < maxTableEntries && !childVhd.containsBlock(mergeState.currentBlock)) {
-        ++mergeState.currentBlock
-      }
     }
 
     // counts number of allocated blocks
