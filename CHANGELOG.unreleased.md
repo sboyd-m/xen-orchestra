@@ -33,6 +33,7 @@
 
 - @vates/event-listeners-manager patch
 - @vates/read-chunk major
+- @xen-orchestra/backups patch
 - @xen-orchestra/xapi minor
 - xo-remote-parser minor
 - xo-server patch
