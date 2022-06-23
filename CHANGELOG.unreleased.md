@@ -7,6 +7,8 @@
 
 > Users must be able to say: “Nice enhancement, I'm eager to test it”
 
+- [Restore backup] Clearer error message when importing a VM backup requires restoration of CH >= 8.1 (PR [#6304](https://github.com/vatesfr/xen-orchestra/pull/6304))
+
 ### Bug fixes
 
 > Users must be able to say: “I had this issue, happy to know it's fixed”
@@ -34,6 +36,6 @@
 - @vates/read-chunk major
 - @xen-orchestra/xapi minor
 - xo-remote-parser minor
-- xo-server patch
+- xo-server minor
 
 <!--packages-end-->
